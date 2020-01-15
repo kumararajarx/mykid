@@ -16,47 +16,48 @@ import NavButton from '../components/common/NavButton';
 class ClassList extends React.Component {
   constructor(props) {
     super();
-    this.state = { centers: [] };
+    this.state = { classes: [] };
     this.props = props;
   }
 
+  parseISOString = s => {
+    var b = s.split(/\D+/);
+    return new Date(Date.UTC(b[0], --b[1], b[2], b[3], b[4], b[5], b[6]));
+  };
+
   componentDidMount() {
     const db = firebase.firestore();
-    const userRef = db.collection('center');
+    const userRef = db.collection('timetable');
 
-    let centers = [];
+    let classes = [];
 
     userRef.get().then(doc => {
       doc.docs.forEach(d => {
-        let center = d.data();
-        center.id = d.id;
-        centers.push(center);
+        let cla = d.data();
+        cla.id = d.id;
+        cla.start = this.parseISOString(cla.start);
+        cla.end = this.parseISOString(cla.end);
+        classes.push(cla);
       });
-
-      this.setState({ centers: centers });
+      console.log(classes);
+      this.setState({ classes: classes });
     });
   }
 
-  viewStudent = id => {
-    console.log(id);
-  };
-
-  deleteCenter = (id, index) => {
+  deleteClass = (id, index) => {
     console.log(id, index);
-    let centers = [...this.state.centers];
+    let classes = [...this.state.classes];
 
-    console.log(centers);
+    console.log(classes);
     firebase
       .firestore()
-      .collection('center')
+      .collection('timetable')
       .doc(id)
       .delete()
       .then(() => {
         console.log('Document successfully deleted!');
-
-        centers.splice(index, 1);
-
-        this.setState({ centers: centers });
+        classes.splice(index, 1);
+        this.setState({ classes: classes });
       })
       .catch(error => {
         console.error('Error removing document: ', error);
@@ -64,21 +65,16 @@ class ClassList extends React.Component {
   };
 
   render() {
-    const item = {
-      title: 'Add Center',
-      to: '/add-center'
-    };
     return (
       <Container fluid className="main-content-container px-4">
         {/* Page Header */}
         <Row noGutters className="page-header py-4">
           <PageTitle
             sm="4"
-            title="Center List"
+            title="Class List"
             subtitle="List"
             className="text-sm-left"
           />
-          <NavButton sm="4" item={item} className="text-sm-right" />
         </Row>
 
         <Row>
@@ -95,22 +91,16 @@ class ClassList extends React.Component {
                         #
                       </th>
                       <th scope="col" className="border-0">
-                        Name
+                        Title
                       </th>
                       <th scope="col" className="border-0">
-                        Phone Number
+                        Description
                       </th>
                       <th scope="col" className="border-0">
-                        Supervisor
+                        Start
                       </th>
                       <th scope="col" className="border-0">
-                        Supervisor Contact
-                      </th>
-                      <th scope="col" className="border-0">
-                        City
-                      </th>
-                      <th scope="col" className="border-0">
-                        No of Kids
+                        End
                       </th>
                       <th scope="col" className="border-0">
                         View
@@ -121,57 +111,38 @@ class ClassList extends React.Component {
                     </tr>
                   </thead>
                   <tbody>
-                    {this.state.centers.map((center, index) => {
+                    {this.state.classes.map((cla, index) => {
                       return (
                         <tr key={index}>
                           <td>{index + 1}</td>
-                          <td>{center.centerName}</td>
-                          <td>{center.NumberofKids}</td>
-                          <td>{center.centerPhoneNumber}</td>
-                          <td>{center.city}</td>
-                          <td>{center.contactPersonName}</td>
-                          <td>{center.contactPersonMobile}</td>
+                          <td>{cla.title}</td>
+                          <td>{cla.desc}</td>
+                          <td>{cla.start + ''}</td>
+                          <td>{cla.end + ''}</td>
+
                           <td>
                             <NavButton
                               item={{
                                 title: 'View',
                                 icon: 'delete',
-                                to: '/view-center'
+                                to: '/view-class'
                               }}
-                              data={center}
+                              data={cla}
                             />
                           </td>
-                          {/* <td>
-                            <button
-                              onClick={this.viewStudent.bind(
-                                this,
-                                listValue.id,
-                                index
-                              )}
-                            >
-                              View
-                            </button>
-                          </td> */}
-                          {/* <td>
-                            <NavButton
-                              item={{
-                                title: 'View',
-                                icon: 'delete',
-                                to: '/view-student'
-                              }}
-                              data={student}
-                            />
-                          </td> */}
                           <td>
-                            <button
-                              onClick={this.deleteCenter.bind(
+                            <Button
+                              outline
+                              theme="accent"
+                              size="sm"
+                              onClick={this.deleteClass.bind(
                                 this,
-                                center.id,
+                                cla.id,
                                 index
                               )}
                             >
-                              Delete
-                            </button>
+                              <i className="material-icons">delete</i> Delete
+                            </Button>
                           </td>
                         </tr>
                       );

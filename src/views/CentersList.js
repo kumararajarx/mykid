@@ -6,8 +6,7 @@ import {
   Card,
   CardHeader,
   CardBody,
-  Button,
-  DatePicker
+  Button
 } from 'shards-react';
 
 import PageTitle from '../components/common/PageTitle';
@@ -37,10 +36,6 @@ class CentersList extends React.Component {
       this.setState({ centers: centers });
     });
   }
-
-  viewStudent = id => {
-    console.log(id);
-  };
 
   deleteCenter = (id, index) => {
     console.log(id, index);
@@ -105,7 +100,7 @@ class CentersList extends React.Component {
                         Contact Person
                       </th>
                       <th scope="col" className="border-0">
-                      Contact PersonNumber
+                        Contact PersonNumber
                       </th>
                       <th scope="col" className="border-0">
                         Year Established
@@ -140,10 +135,7 @@ class CentersList extends React.Component {
                           <td>{center.NumberofKids}</td>
                           <td>{center.address}</td>
                           <td>{center.city}</td>
-                         
-                          
-                          
-                          
+
                           <td>
                             <NavButton
                               item={{
@@ -154,28 +146,7 @@ class CentersList extends React.Component {
                               data={center}
                             />
                           </td>
-                          {/* <td>
-                            <button
-                              onClick={this.viewStudent.bind(
-                                this,
-                                listValue.id,
-                                index
-                              )}
-                            >
-                              View
-                            </button>
-                          </td> */}
-                          {/* <td>
-                            <NavButton
-                              item={{
-                                title: 'View',
-                                icon: 'delete',
-                                to: '/view-student'
-                              }}
-                              data={student}
-                            />
-                          </td> */}
-                           <td>
+                          <td>
                             <Button
                               outline
                               theme="accent"

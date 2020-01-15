@@ -1,6 +1,4 @@
 import React from 'react';
-import YearPicker from "react-year-picker";
-
 import PageTitle from '../components/common/PageTitle';
 import NavButton from '../components/common/NavButton';
 import Loading from '../components/common/Loading';
@@ -129,24 +127,22 @@ class AddCenter extends React.Component {
                           </Col>
                           {/* yearEstablished */}
                           <Col md="6" className="form-group">
-                    <lable htmlFor="fecenterPhoneNumber">
-                      Center Phone Number
-                    </lable>
-                    <FormInput
-                      id="fecenterPhoneNumber"
-                      name="centerPhoneNumber"
-                      placeholder="Center Phone Number"
-                      value={this.state.centerPhoneNumber}
-                      onChange={this.handleChange}
-                    />
-                  </Col>
-                          
+                            <lable htmlFor="fecenterPhoneNumber">
+                              Center Phone Number
+                            </lable>
+                            <FormInput
+                              id="fecenterPhoneNumber"
+                              name="centerPhoneNumber"
+                              placeholder="Center Phone Number"
+                              value={this.state.centerPhoneNumber}
+                              onChange={this.handleChange}
+                            />
+                          </Col>
                         </Row>
                       </Form>
                     </Col>
                   </Row>
                   <Row form>
-                   
                     <Col md="6" className="form-group">
                       <lable htmlFor="fecontactPersonName">
                         Contact Person Name
@@ -159,7 +155,7 @@ class AddCenter extends React.Component {
                         onChange={this.handleChange}
                       />
                     </Col>
-                   
+
                     <Col md="6" className="form-group">
                       <lable htmlFor="fecontactPersonMobile">
                         Contact Person Mobile
@@ -172,24 +168,22 @@ class AddCenter extends React.Component {
                         onChange={this.handleChange}
                       />
                     </Col>
-
-
                   </Row>
-                 <Row form>
-                 <Col md="6" className="form-group">
-                            <label htmlFor="feyearEstablished">
-                              Year Established
-                            </label>
-                            <FormInput
-                              id="feyearEstablished"
-                              name="yearEstablished"
-                              placeholder="Year Established"
-                              value={this.state.yearEstablished}
-                             onChange={this.handleChange}
-                            />
-                          </Col>
+                  <Row form>
+                    <Col md="6" className="form-group">
+                      <label htmlFor="feyearEstablished">
+                        Year Established
+                      </label>
+                      <FormInput
+                        id="feyearEstablished"
+                        name="yearEstablished"
+                        placeholder="Year Established"
+                        value={this.state.yearEstablished}
+                        onChange={this.handleChange}
+                      />
+                    </Col>
 
-                          <Col md="2" className="form-group">
+                    <Col md="2" className="form-group">
                       <label htmlFor="feNumberofKids">Number of Kids</label>
                       <FormInput
                         id="feNumberofKids"
@@ -200,13 +194,12 @@ class AddCenter extends React.Component {
                         onChange={this.handleChange}
                       />
                     </Col>
-</Row>
-                  
+                  </Row>
+
                   <FormGroup>
                     <label htmlFor="feAddress">Address</label>
                     <FormTextarea
                       id="feAddress"
-                   
                       name="address"
                       placeholder="Address"
                       value={this.state.address}
@@ -254,8 +247,6 @@ class AddCenter extends React.Component {
                         onChange={this.handleChange}
                       />
                     </Col>
-                    
-                    
                   </Row>
                   {this.state.pageMode === 'add' ? (
                     <Button theme="accent" onClick={this.addCenter}>

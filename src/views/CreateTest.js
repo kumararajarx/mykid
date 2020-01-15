@@ -40,7 +40,7 @@ class CreateTest extends React.Component {
 
     this.props = props;
 
-    console.log(Date(props.location.state.examDate))
+    console.log(Date(props.location.state.examDate));
 
     if (props.location.state) {
       this.state = props.location.state;
@@ -51,7 +51,7 @@ class CreateTest extends React.Component {
       this.state.pageTitle = 'View Test';
     }
   }
-  
+
   handleChange = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
@@ -68,9 +68,11 @@ class CreateTest extends React.Component {
 
     const userRef = firebase.firestore().collection('tests');
     const date = this.state.examDate;
-    console.log(this.state)
+    console.log(this.state);
 
-    const dateStr = [date.getDate(), date.getMonth(), date.getFullYear()].join("-");
+    const dateStr = [date.getDate(), date.getMonth(), date.getFullYear()].join(
+      '-'
+    );
 
     userRef
       .add({

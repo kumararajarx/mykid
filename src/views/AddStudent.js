@@ -32,10 +32,8 @@ class AddStudent extends React.Component {
       medium: '',
       standard: '',
       school: '',
-      dob:'',
-      title: '',
       dob: '',
-      fePhone: '',
+      title: '',
       address: '',
       city: '',
       state: '',
@@ -78,7 +76,7 @@ class AddStudent extends React.Component {
         medium: this.state.medium,
         standard: this.state.standard,
         school: this.state.school,
-        dob:this.state.dob,
+        dob: this.state.dob,
         address: this.state.address,
         city: this.state.city,
         state: this.state.state,
@@ -113,7 +111,7 @@ class AddStudent extends React.Component {
         medium: this.state.medium,
         standard: this.state.standard,
         school: this.state.school,
-        dob:this.state.dob,
+        dob: this.state.dob,
         address: this.state.address,
         city: this.state.city,
         state: this.state.state,
@@ -220,7 +218,6 @@ class AddStudent extends React.Component {
                           </Col>
                         </Row>
                         <Row form>
-                          
                           {/* DOB */}
                           <Col md="6" className="form-group">
                             <label htmlFor="feDob">DOB</label>
@@ -234,18 +231,18 @@ class AddStudent extends React.Component {
                               placeholderText="DOB"
                               dropdownMode="select"
                               className="text-center"
-                            /> 
+                            />
                           </Col>
                           {/* School Name */}
                           <Col md="6" className="form-group">
-                          <label htmlFor="school">School Name</label>
-                          <FormInput
-                            id="school"
-                            name="school"
-                            placeholder="Enter School Name"
-                            value={this.state.school}
-                            onChange={this.handleChange}
-                          />
+                            <label htmlFor="school">School Name</label>
+                            <FormInput
+                              id="school"
+                              name="school"
+                              placeholder="Enter School Name"
+                              value={this.state.school}
+                              onChange={this.handleChange}
+                            />
                           </Col>
                         </Row>
                         <FormGroup>

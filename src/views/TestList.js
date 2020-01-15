@@ -6,8 +6,7 @@ import {
   Card,
   CardHeader,
   CardBody,
-  Button,
-  DatePicker
+  Button
 } from 'shards-react';
 
 import PageTitle from '../components/common/PageTitle';
@@ -34,15 +33,9 @@ class TestList extends React.Component {
         tests.push(test);
       });
 
-      //console.log(tests[1].examDate.seconds);
-
       this.setState({ tests: tests });
     });
   }
-
-  viewTest = data => {
-    console.log(data);
-  };
 
   deleteTest = (id, index) => {
     console.log(id, index);
@@ -69,7 +62,7 @@ class TestList extends React.Component {
   render() {
     const item = {
       title: 'Examinations',
-      to: '/view-test'
+      to: '/add-test'
     };
 
     return (

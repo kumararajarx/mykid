@@ -1,5 +1,5 @@
 
-<h1 align="center" style="border-bottom: none !important; margin-bottom: 5px !important;"><a href="https://mykid.com/">Mykid App</a></h1>
+<h1 align="center" style="border-bottom: none !important; margin-bottom: 5px !important;"><a href="https://mymentor.com/">mymentor App</a></h1>
 
 ### Quick Start
 
