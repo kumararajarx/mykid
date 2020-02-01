@@ -31,8 +31,7 @@ class ClassList extends React.Component {
 
     let classes = [];
 
-    userRef.get().then(doc => 
-      {
+    userRef.get().then(doc => {
       doc.docs.forEach(d => {
         let cla = d.data();
         cla.id = d.id;
@@ -113,7 +112,6 @@ class ClassList extends React.Component {
                   </thead>
                   <tbody>
                     {this.state.classes.map((cla, index) => {
-                      console.log("Clas Det--->", cla); 
                       return (
                         <tr key={index}>
                           <td>{index + 1}</td>
@@ -121,7 +119,7 @@ class ClassList extends React.Component {
                           <td>{cla.desc}</td>
                           <td>{cla.start + ''}</td>
                           <td>{cla.end + ''}</td>
-                        
+
                           <td>
                             <NavButton
                               item={{

@@ -16,25 +16,28 @@ import {
 import PageTitle from '../components/common/PageTitle';
 import firebase from '../firebase';
 import NavButton from '../components/common/NavButton';
+import Loading from '../components/common/Loading';
 
 class ClassLog extends React.Component {
   constructor(props) {
     super();
     this.state = {
-      volunteerId: JSON.parse(localStorage.getItem('userData')).mobileNumber,
+      volunteerId: JSON.parse(localStorage.getItem('userData')).id,
       volunteerName: JSON.parse(localStorage.getItem('userData')).firstName,
       attendance: '',
       comment: '',
-      done: false,
+      loading: false,
       studentLogs: [],
-      students: [{ id: 0, firstName: 'None' }]
+      students: [{ id: 0, firstName: 'None' }],
+      studentName: '',
+      studentId: ''
     };
     this.props = props;
     // console.log('check prop det--->', props);
     if (props.location.state) {
       const state = props.location.state;
       console.log(state);
-      this.state.classId = state.id;
+      this.state.classId = state.classId;
       this.state.title = state.title;
       this.state.desc = state.desc;
       this.state.pageTitle = 'View Class';
@@ -44,6 +47,8 @@ class ClassLog extends React.Component {
   componentDidMount() {
     let students = this.state.students;
     let self = this;
+
+    console.log(this.state.volunteerId);
 
     firebase
       .firestore()
@@ -63,25 +68,40 @@ class ClassLog extends React.Component {
       });
   }
 
+  handleChangeStudent = e => {
+    const studentSelected = this.state.students[e.target.value];
+    this.setState({
+      studentName: studentSelected.firstName + ' ' + studentSelected.lastName,
+      studentId: studentSelected.id
+    });
+  };
+
   handleChange = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
 
   addStudentLog = () => {
     this.setState({ loading: true });
+
     const db = firebase.firestore();
-    const userRef = db.collection('student');
-    userRef
-      .add({
-        student: this.state.student,
-        comment: this.state.comment,
-        classId: this.state.classId,
-        volunteerId: this.state.volunteerId,
-        volunteerName: this.state.volunteerName
-      })
-      .then(a => {
-        console.log(a);
+    const userRef = db.collection('class_log');
+
+    const st_log = {
+      studentName: this.state.studentName,
+      studentId: this.state.studentId,
+      comment: this.state.comment,
+      classId: this.state.classId,
+      volunteerId: this.state.volunteerId,
+      volunteerName: this.state.volunteerName
+    };
+    console.log(st_log);
+    userRef.add(st_log).then(a => {
+      console.log(a);
+      this.setState({
+        loading: false,
+        studentLogs: [...this.state.studentLogs, st_log]
       });
+    });
   };
 
   render() {
@@ -112,12 +132,14 @@ class ClassLog extends React.Component {
                 <ListGroupItem className="px-4">
                   <div className="progress-wrapper">
                     <Col md="12" className="form-group">
-                      <label htmlFor="feAttendance">Student:</label>
+                      <label htmlFor="feStudent">Student:</label>
                       <FormSelect
-                        id="feAttendance"
-                        name="attendance"
-                        value={this.state.attendance}
-                        onChange={this.handleChange}
+                        id="feStudent"
+                        name="student"
+                        value={this.state.students
+                          .map(c => c.id)
+                          .indexOf(this.state.studentId)}
+                        onChange={this.handleChangeStudent}
                       >
                         {this.state.students.map((value, index) => {
                           return (
@@ -137,7 +159,7 @@ class ClassLog extends React.Component {
                         onChange={this.handleChange}
                       />
                     </Col>
-                    <Button theme="accent" onClick={this.addAttendance}>
+                    <Button theme="accent" onClick={this.addStudentLog}>
                       Submit
                     </Button>
                   </div>
@@ -149,7 +171,7 @@ class ClassLog extends React.Component {
           <Col lg="8">
             <Card small className="mb-4">
               <CardHeader className="border-bottom">
-                <h6 className="m-0">My Mentee</h6>
+                <h6 className="m-0">Class Logs</h6>
               </CardHeader>
               <CardBody className="p-0 pb-3">
                 <table className="table mb-0">
@@ -159,7 +181,10 @@ class ClassLog extends React.Component {
                         #
                       </th>
                       <th scope="col" className="border-0">
-                        Name
+                        Student
+                      </th>
+                      <th scope="col" className="border-0">
+                        Volunteer
                       </th>
                       <th scope="col" className="border-0">
                         Comments
@@ -172,7 +197,8 @@ class ClassLog extends React.Component {
                         <tr key={index}>
                           <td>{index}</td>
                           <td>{attd.studentName}</td>
-                          <td>{attd.comments}</td>
+                          <td>{attd.volunteerName}</td>
+                          <td>{attd.comment}</td>
                         </tr>
                       );
                     })}
@@ -181,6 +207,9 @@ class ClassLog extends React.Component {
               </CardBody>
             </Card>
           </Col>
+          <Card small className="mb-4">
+            <Loading open={this.state.loading} />
+          </Card>
         </Row>
       </Container>
     );

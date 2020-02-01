@@ -51,6 +51,7 @@ class Login extends React.Component {
           console.log(doc);
           console.log(doc.id, '=>', doc.data());
           userData = doc.data();
+          userData.id = doc.id;
           localStorage.setItem('userData', JSON.stringify(userData));
           if (userData.password === self.state.password) {
             self.setState({ toDashboard: true });

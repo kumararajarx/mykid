@@ -107,7 +107,7 @@ class AddVolunteers extends React.Component {
       .catch(function(error) {
         console.log('errorr', error);
       });
-      
+
     let centers = [{ id: 0, centerName: 'None' }];
 
     dbRef.get().then(doc => {
@@ -215,11 +215,11 @@ class AddVolunteers extends React.Component {
   };
 
   assignMentee = (mentee, i) => {
-    console.log('del', mentee);
-
     this.setState({ loading: true });
     mentee.mentorName = this.state.firstName;
     mentee.mentorId = this.state.id;
+
+    console.log('assignMentee', mentee);
 
     const updateRef = firebase
       .firestore()
@@ -242,34 +242,33 @@ class AddVolunteers extends React.Component {
         console.error('Error adding document: ', error);
       });
   };
+
   removeMentee = (mentee, i) => {
-    {
-      console.log('rmv');
-      this.setState({ loading: true });
-      mentee.mentorName = '';
-      mentee.mentorId = '';
+    console.log('remove', i);
+    this.setState({ loading: true });
+    mentee.mentorName = '';
+    mentee.mentorId = '';
 
-      const updateRef = firebase
-        .firestore()
-        .collection('students')
-        .doc(mentee.id);
+    const updateRef = firebase
+      .firestore()
+      .collection('students')
+      .doc(mentee.id);
 
-      updateRef
-        .set({
-          ...mentee
-        })
-        .then(docRef => {
-          console.log(docRef);
-          this.setState({
-            loading: false,
-            myMentees: this.state.myMentees.splice(i, 1)
-          });
-        })
-        .catch(error => {
-          this.setState({ loading: false });
-          console.error('Error adding document: ', error);
+    updateRef
+      .set({
+        ...mentee
+      })
+      .then(docRef => {
+        console.log(docRef);
+        this.state.myMentees.splice(i, 1);
+        this.setState({
+          loading: false
         });
-    }
+      })
+      .catch(error => {
+        this.setState({ loading: false });
+        console.error('Error adding document: ', error);
+      });
   };
   render() {
     const item = {
@@ -517,7 +516,7 @@ class AddVolunteers extends React.Component {
           <Col lg="6">
             <Card small className="mb-4">
               <CardHeader className="border-bottom">
-                <h6 className="m-0">My Mentee</h6>
+                <h6 className="m-0">My students</h6>
               </CardHeader>
               <CardBody className="p-0 pb-3">
                 <table className="table mb-0">
@@ -527,10 +526,10 @@ class AddVolunteers extends React.Component {
                         #
                       </th>
                       <th scope="col" className="border-0">
-                        First Name
+                        Full Name
                       </th>
                       <th scope="col" className="border-0">
-                        Last Name
+                        Volunteer
                       </th>
                       <th scope="col" className="border-0">
                         Remove
@@ -539,13 +538,11 @@ class AddVolunteers extends React.Component {
                   </thead>
                   <tbody>
                     {this.state.myMentees.map((mentee, index) => {
-                      console.log('ddd', index);
                       return (
                         <tr key={index + 1}>
                           <td>{index}</td>
-                          <td>{mentee.firstName}</td>
-                          <td>{mentee.lastName}</td>
-
+                          <td>{mentee.firstName + ' ' + mentee.lastName}</td>
+                          <td>{mentee.mentorName}</td>
                           <td>
                             <Button
                               onClick={this.removeMentee.bind(
@@ -567,7 +564,7 @@ class AddVolunteers extends React.Component {
 
             <Card small className="mb-4">
               <CardHeader className="border-bottom">
-                <h6 className="m-0">{this.state.title}</h6>
+                <h6 className="m-0">All students</h6>
               </CardHeader>
               <CardBody className="p-0 pb-3">
                 <table className="table mb-0">
@@ -577,7 +574,7 @@ class AddVolunteers extends React.Component {
                         #
                       </th>
                       <th scope="col" className="border-0">
-                        First Name
+                        Full Name
                       </th>
                       <th scope="col" className="border-0">
                         Volunteer
@@ -589,11 +586,10 @@ class AddVolunteers extends React.Component {
                   </thead>
                   <tbody>
                     {this.state.allMentees.map((mentee, index) => {
-                      console.log('dett-->', mentee);
                       return (
                         <tr key={index + 1}>
                           <td>{index}</td>
-                          <td>{mentee.firstName + mentee.lastName} </td>
+                          <td>{mentee.firstName + ' ' + mentee.lastName} </td>
                           <td>{mentee.mentorName}</td>
 
                           <td>
